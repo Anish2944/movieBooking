@@ -1,0 +1,116 @@
+<section class="theaters-admin">
+  <div class="theater-list">
+    <header>
+      <h2>Theaters</h2>
+      <button mat-raised-button color="primary" (click)="clearSelection()">Add new</button>
+    </header>
+
+    <div class="loading" *ngIf="loading">
+      <mat-progress-spinner diameter="36" mode="indeterminate"></mat-progress-spinner>
+      <span>Loading theaters…</span>
+    </div>
+
+    <div class="empty" *ngIf="!loading && !theaters.length">
+      No theaters yet. Create one to start scheduling shows.
+    </div>
+
+    <div class="theater-items" *ngIf="!loading && theaters.length">
+      <article
+        class="theater-item"
+        *ngFor="let theater of theaters"
+        [class.active]="selectedTheater?.id === theater.id"
+        (click)="selectTheater(theater)"
+      >
+        <div>
+          <h3>{{ theater.name }}</h3>
+          <p>{{ theater.location }}</p>
+        </div>
+        <button mat-icon-button color="warn" (click)="deleteTheater(theater); $event.stopPropagation();">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </article>
+    </div>
+  </div>
+
+  <div class="theater-detail">
+    <header>
+      <h2>{{ selectedTheater ? 'Edit theater' : 'Create theater' }}</h2>
+    </header>
+
+    <form [formGroup]="theaterForm" (ngSubmit)="submitTheater()" class="theater-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="theaterForm.get('name')?.hasError('required')">Name is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Location</mat-label>
+        <input matInput formControlName="location" />
+        <mat-error *ngIf="theaterForm.get('location')?.hasError('required')">Location is required.</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="savingTheater">
+        <mat-progress-spinner *ngIf="savingTheater" diameter="20" mode="indeterminate"></mat-progress-spinner>
+        <span *ngIf="!savingTheater">{{ selectedTheater ? 'Save changes' : 'Create theater' }}</span>
+      </button>
+    </form>
+
+    <section class="screens" *ngIf="selectedTheater">
+      <header>
+        <h3>Screens</h3>
+      </header>
+
+      <form [formGroup]="screenForm" (ngSubmit)="createScreen()" class="screen-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Screen name</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Total seats</mat-label>
+          <input matInput type="number" formControlName="totalSeats" />
+        </mat-form-field>
+        <button mat-stroked-button color="primary" type="submit" [disabled]="savingScreen">
+          <mat-progress-spinner *ngIf="savingScreen" diameter="20" mode="indeterminate"></mat-progress-spinner>
+          <span *ngIf="!savingScreen">Add screen</span>
+        </button>
+      </form>
+
+      <div class="seat-config">
+        <h4>Seat generation template</h4>
+        <form [formGroup]="seatForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Rows</mat-label>
+            <input matInput type="number" formControlName="rows" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Seats per row</mat-label>
+            <input matInput type="number" formControlName="seatsPerRow" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Starting row (ASCII)</mat-label>
+            <input matInput type="number" formControlName="startRowAscii" />
+            <mat-hint>65 = A</mat-hint>
+          </mat-form-field>
+        </form>
+        <p>Apply these settings to any screen below.</p>
+      </div>
+
+      <div class="screen-list" *ngIf="selectedTheater.screens?.length; else noScreens">
+        <article class="screen-item" *ngFor="let screen of selectedTheater.screens">
+          <div>
+            <h4>{{ screen.name }}</h4>
+            <p>{{ screen.totalSeats }} seats</p>
+          </div>
+          <button mat-stroked-button color="primary" (click)="generateSeats(screen)" [disabled]="generatingSeats">
+            <mat-progress-spinner *ngIf="generatingSeats" diameter="20" mode="indeterminate"></mat-progress-spinner>
+            <span *ngIf="!generatingSeats">Generate seats</span>
+          </button>
+        </article>
+      </div>
+      <ng-template #noScreens>
+        <div class="empty">Add a screen to start selling seats.</div>
+      </ng-template>
+    </section>
+  </div>
+</section>

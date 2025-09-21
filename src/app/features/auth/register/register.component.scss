@@ -1,0 +1,47 @@
+.auth-form {
+  width: min(440px, 100%);
+  display: grid;
+  gap: 1.1rem;
+
+  .form-header {
+    h2 {
+      font-size: 1.85rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      margin: 0;
+      color: rgba(15, 23, 42, 0.65);
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  button[type='submit'] {
+    height: 48px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    mat-progress-spinner {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+
+  .alt-action {
+    text-align: center;
+    font-size: 0.95rem;
+    color: rgba(15, 23, 42, 0.65);
+
+    a {
+      font-weight: 600;
+      color: #1d4ed8;
+      margin-left: 0.35rem;
+    }
+  }
+}

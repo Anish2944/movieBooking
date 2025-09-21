@@ -1,0 +1,91 @@
+<section class="seat-container" *ngIf="show as showData; else loadingState">
+  <aside class="summary-card">
+    <h2>{{ showData.movie?.title }}</h2>
+    <p class="subtitle">
+      {{ showData.screen?.theater?.name || showData.screen?.theater?.location }} •
+      {{ showData.screen?.name }}
+    </p>
+    <div class="showtime">
+      <mat-icon>schedule</mat-icon>
+      <span>{{ showData.startsAtUtc | date: 'EEE, MMM d • h:mm a' }}</span>
+    </div>
+    <div class="divider"></div>
+    <div class="summary-item">
+      <span>Selected seats</span>
+      <strong>{{ selectedSeatLabels.length ? selectedSeatLabels.join(', ') : 'None yet' }}</strong>
+    </div>
+    <div class="summary-item">
+      <span>Seat price</span>
+      <strong>&#8377;{{ showData.price | number: '1.0-0' }}</strong>
+    </div>
+    <div class="summary-item total">
+      <span>Total payable</span>
+      <strong>&#8377;{{ totalAmount | number: '1.0-0' }}</strong>
+    </div>
+    <div class="lock-info" *ngIf="lockExpiresAt">
+      <mat-icon>lock_clock</mat-icon>
+      <span>Seats locked until {{ lockExpiresAt | date: 'shortTime' }}</span>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="confirmBooking()"
+      [disabled]="processing || selectedSeatIds.size === 0"
+    >
+      <mat-progress-spinner *ngIf="processing" diameter="20" mode="indeterminate"></mat-progress-spinner>
+      <span *ngIf="!processing">Confirm booking</span>
+    </button>
+    <button mat-stroked-button (click)="refreshSeats()" [disabled]="loadingSeats">
+      Refresh seats
+    </button>
+  </aside>
+
+  <section class="seat-map">
+    <header>
+      <h3>Select your seats</h3>
+      <div class="legend">
+        <span class="legend-item available">Available</span>
+        <span class="legend-item selected">Selected</span>
+        <span class="legend-item locked">Locked</span>
+        <span class="legend-item booked">Booked</span>
+      </div>
+    </header>
+
+    <div class="loading" *ngIf="loadingSeats">
+      <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      <span>Syncing live seat availability…</span>
+    </div>
+
+    <div class="seat-grid" *ngIf="!loadingSeats">
+      <div class="screen">SCREEN</div>
+      <div class="rows">
+        <div class="row" *ngFor="let row of seatRows">
+          <span class="row-label">{{ row.row }}</span>
+          <div class="seat-row">
+            <button
+              type="button"
+              class="seat"
+              *ngFor="let seat of row.seats"
+              [ngClass]="{
+                'is-selected': isSelected(seat),
+                'is-booked': seat.isBooked,
+                'is-locked': seat.isLocked && !seat.isBooked
+              }"
+              [disabled]="seat.isBooked || seat.isLocked"
+              (click)="toggleSeat(seat)"
+            >
+              {{ seat.number }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<ng-template #loadingState>
+  <div class="loading full">
+    <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+    <span>Fetching show details…</span>
+  </div>
+</ng-template>

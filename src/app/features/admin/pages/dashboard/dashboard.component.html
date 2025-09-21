@@ -1,0 +1,93 @@
+<section class="dashboard" *ngIf="!loading; else loadingTpl">
+  <div class="stat-grid">
+    <article class="stat-card">
+      <mat-icon>movie_filter</mat-icon>
+      <div>
+        <span>Total movies</span>
+        <strong>{{ stats.movies }}</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <mat-icon>schedule</mat-icon>
+      <div>
+        <span>Live shows</span>
+        <strong>{{ stats.shows }}</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <mat-icon>storefront</mat-icon>
+      <div>
+        <span>Theaters</span>
+        <strong>{{ stats.theaters }}</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <mat-icon>event_seat</mat-icon>
+      <div>
+        <span>Total seats</span>
+        <strong>{{ stats.totalSeats }}</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <mat-icon>dashboard_customize</mat-icon>
+      <div>
+        <span>Screens</span>
+        <strong>{{ stats.screens }}</strong>
+      </div>
+    </article>
+    <article class="stat-card">
+      <mat-icon>rocket_launch</mat-icon>
+      <div>
+        <span>Next 72 hrs</span>
+        <strong>{{ stats.upcomingShows }}</strong>
+      </div>
+    </article>
+  </div>
+
+  <div class="panels">
+    <section class="panel">
+      <header>
+        <h3>Latest titles</h3>
+        <span>{{ latestMovies.length }} curated</span>
+      </header>
+      <div class="movie-list" *ngIf="latestMovies.length; else noMovies">
+        <article *ngFor="let movie of latestMovies">
+          <div>
+            <h4>{{ movie.title }}</h4>
+            <p>{{ movie.genre || 'Genre pending' }}</p>
+          </div>
+          <span>{{ movie.durationMinutes }} mins</span>
+        </article>
+      </div>
+      <ng-template #noMovies>
+        <div class="empty">Add your first movie to start scheduling shows.</div>
+      </ng-template>
+    </section>
+
+    <section class="panel">
+      <header>
+        <h3>Upcoming shows</h3>
+        <span>{{ upcomingShowList.length }} scheduled</span>
+      </header>
+      <div class="show-list" *ngIf="upcomingShowList.length; else noShows">
+        <article *ngFor="let show of upcomingShowList">
+          <div>
+            <h4>{{ show.movie?.title }}</h4>
+            <p>{{ show.screen?.theater?.name }} • {{ show.screen?.name }}</p>
+          </div>
+          <span>{{ show.startsAtUtc | date: 'MMM d, h:mm a' }}</span>
+        </article>
+      </div>
+      <ng-template #noShows>
+        <div class="empty">Create a show to fill your schedule.</div>
+      </ng-template>
+    </section>
+  </div>
+</section>
+
+<ng-template #loadingTpl>
+  <div class="loading">
+    <mat-progress-spinner diameter="48" mode="indeterminate"></mat-progress-spinner>
+    <span>Preparing your admin insights…</span>
+  </div>
+</ng-template>

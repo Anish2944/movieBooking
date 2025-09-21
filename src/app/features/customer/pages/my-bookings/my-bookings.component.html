@@ -1,0 +1,48 @@
+<section class="bookings">
+  <header>
+    <div>
+      <h2>My bookings</h2>
+      <p>Track your upcoming shows and revisit past experiences.</p>
+    </div>
+    <span class="count-pill">{{ bookings.length }} reservations</span>
+  </header>
+
+  <div class="loading" *ngIf="loading">
+    <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+    <span>Retrieving your bookings…</span>
+  </div>
+
+  <div class="empty" *ngIf="!loading && bookings.length === 0">
+    <mat-icon>event_seat</mat-icon>
+    <h3>No bookings yet</h3>
+    <p>Reserve your first set of seats and they will appear right here.</p>
+    <button mat-raised-button color="primary" routerLink="/">Browse movies</button>
+  </div>
+
+  <div class="booking-grid" *ngIf="!loading && bookings.length">
+    <article class="booking-card" *ngFor="let booking of bookings">
+      <div class="header">
+        <h3>{{ booking.movieTitle }}</h3>
+        <span class="status" [ngClass]="booking.status.toLowerCase()">{{ booking.status }}</span>
+      </div>
+      <p class="showtime">
+        <mat-icon>schedule</mat-icon>
+        {{ formatDateTime(booking.startsAtUtc) }}
+      </p>
+      <div class="meta">
+        <span>
+          <mat-icon>event_seat</mat-icon>
+          {{ seatList(booking) || 'No seats recorded' }}
+        </span>
+        <span>
+          <mat-icon>theaters</mat-icon>
+          {{ booking.screenName }}
+        </span>
+      </div>
+      <div class="total">
+        <span>Total paid</span>
+        <strong>&#8377;{{ booking.totalAmount | number: '1.0-0' }}</strong>
+      </div>
+    </article>
+  </div>
+</section>

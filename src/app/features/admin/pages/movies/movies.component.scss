@@ -1,0 +1,130 @@
+.movies-admin {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.list-card,
+.form-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+}
+
+.list-card header,
+.form-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #0f172a;
+  }
+}
+
+.loading,
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  color: rgba(15, 23, 42, 0.6);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.04);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: rgba(15, 23, 42, 0.5);
+  }
+
+  td {
+    padding: 1rem 0.75rem 1rem 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+
+    img {
+      width: 72px;
+      height: 102px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .movie-title {
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .movie-meta {
+      font-size: 0.85rem;
+      color: rgba(15, 23, 42, 0.55);
+    }
+
+    &.actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.form-card form {
+  display: grid;
+  gap: 1.2rem;
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .file-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    border: 1px dashed rgba(59, 130, 246, 0.35);
+    color: #1d4ed8;
+    cursor: pointer;
+
+    input {
+      display: none;
+    }
+  }
+
+  button[type='submit'] {
+    height: 48px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    mat-progress-spinner {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .movies-admin {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .list-card,
+  .form-card {
+    padding: 1.5rem;
+  }
+}

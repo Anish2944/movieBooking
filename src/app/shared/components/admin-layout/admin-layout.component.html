@@ -1,0 +1,43 @@
+<mat-drawer-container class="admin-container">
+  <mat-drawer class="admin-sidenav" mode="side" [opened]="sidenavOpened">
+    <div class="sidenav-header">
+      <mat-icon class="logo-icon">local_movies</mat-icon>
+      <div>
+        <div class="title">MovieSphere</div>
+        <div class="subtitle">Admin Suite</div>
+      </div>
+    </div>
+    <nav class="sidenav-links">
+      <a
+        mat-button
+        *ngFor="let item of navItems"
+        [routerLink]="item.route"
+        routerLinkActive="active-link"
+      >
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <mat-toolbar color="primary" class="admin-toolbar">
+      <button mat-icon-button class="sidenav-toggle" (click)="toggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="toolbar-title">Admin Console</span>
+      <span class="spacer"></span>
+      <div class="toolbar-actions" *ngIf="user$ | async as user">
+        <span class="user-name">{{ user.name }}</span>
+        <button mat-stroked-button color="accent" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </div>
+    </mat-toolbar>
+
+    <div class="admin-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

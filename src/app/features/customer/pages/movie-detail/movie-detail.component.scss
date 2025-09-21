@@ -1,0 +1,222 @@
+.state-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.1);
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  color: #0f172a;
+
+  mat-icon {
+    font-size: 3rem;
+    color: #f97316;
+  }
+}
+
+.movie-detail {
+  display: grid;
+  gap: 3rem;
+}
+
+.movie-hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  align-items: center;
+
+  .poster {
+    position: relative;
+
+    img {
+      width: 100%;
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+    }
+
+    .duration {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #f8fafc;
+      font-weight: 500;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0;
+      color: #0f172a;
+    }
+
+    p {
+      font-size: 1.05rem;
+      color: rgba(15, 23, 42, 0.7);
+      margin: 0;
+    }
+
+    .meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(59, 130, 246, 0.12);
+        color: #1d4ed8;
+        font-weight: 500;
+      }
+    }
+
+    .cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      a {
+        color: #1d4ed8;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.showtimes {
+  background: #fff;
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 2rem;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+
+    h2 {
+      margin: 0;
+      font-size: 2rem;
+      color: #0f172a;
+    }
+
+    p {
+      margin: 0.35rem 0 0;
+      color: rgba(15, 23, 42, 0.6);
+    }
+
+    .count-pill {
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.16);
+      color: #047857;
+      font-weight: 600;
+    }
+  }
+
+  .loading-state,
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.5rem 1rem;
+    color: rgba(15, 23, 42, 0.6);
+
+    mat-icon {
+      font-size: 3rem;
+      color: rgba(59, 130, 246, 0.6);
+    }
+
+    h3 {
+      margin: 0;
+      color: #0f172a;
+    }
+  }
+
+  .show-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+
+    .show-card {
+      background: linear-gradient(135deg, rgba(29, 78, 216, 0.85), rgba(67, 56, 202, 0.85));
+      color: #f8fafc;
+      border-radius: 18px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+
+      h3 {
+        margin: 0;
+        font-size: 1.35rem;
+      }
+
+      p {
+        margin: 0;
+        color: rgba(248, 250, 252, 0.85);
+      }
+
+      .price {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+
+        span {
+          font-size: 1.6rem;
+          font-weight: 600;
+        }
+
+        small {
+          opacity: 0.8;
+        }
+      }
+
+      button {
+        align-self: flex-start;
+        color: #bfdbfe;
+        border-color: rgba(191, 219, 254, 0.7);
+        display: inline-flex;
+        gap: 0.4rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .showtimes {
+    padding: 1.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .showtimes {
+    padding: 1.35rem;
+  }
+}

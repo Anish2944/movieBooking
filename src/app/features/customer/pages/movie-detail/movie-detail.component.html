@@ -1,0 +1,85 @@
+<section class="state-card" *ngIf="notFound">
+  <mat-icon>sentiment_dissatisfied</mat-icon>
+  <h2>We could not find this movie</h2>
+  <p>The show might be archived or no longer available. Explore other screenings instead.</p>
+  <button mat-raised-button color="primary" routerLink="/">Browse movies</button>
+</section>
+
+<section class="movie-detail" *ngIf="!notFound">
+  <div class="movie-hero" *ngIf="movie as movieData; else movieLoadingTpl">
+    <div class="poster">
+      <img [src]="resolvePoster(movieData)" [alt]="movieData.title" />
+      <span class="duration">
+        <mat-icon>schedule</mat-icon>
+        {{ movieData.durationMinutes }} mins
+      </span>
+    </div>
+    <div class="info">
+      <h1>{{ movieData.title }}</h1>
+      <p>{{ movieData.description || 'Immerse yourself in a cinematic experience tailored for movie lovers.' }}</p>
+      <div class="meta">
+        <span *ngIf="movieData.genre">
+          <mat-icon>category</mat-icon>
+          {{ movieData.genre }}
+        </span>
+        <span *ngIf="movieData.language">
+          <mat-icon>language</mat-icon>
+          {{ movieData.language }}
+        </span>
+        <span *ngIf="movieData.releaseDate">
+          <mat-icon>event</mat-icon>
+          {{ movieData.releaseDate | date: 'MMM d, y' }}
+        </span>
+      </div>
+      <div class="cta">
+        <button mat-raised-button color="primary" (click)="shows.length ? goToBooking(shows[0]) : null" [disabled]="!shows.length">
+          Book next show
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <a mat-button routerLink="/">Back to movies</a>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #movieLoadingTpl>
+    <div class="loading"></div>
+  </ng-template>
+
+  <section class="showtimes" aria-label="Upcoming showtimes">
+    <header>
+      <div>
+        <h2>Upcoming showtimes</h2>
+        <p>Choose a slot that fits and grab your favourite seats.</p>
+      </div>
+      <span class="count-pill">{{ shows.length }} slots</span>
+    </header>
+
+    <div class="loading-state" *ngIf="showLoading">
+      <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      <span>Gathering available showtimes…</span>
+    </div>
+
+    <div class="empty-state" *ngIf="!showLoading && shows.length === 0">
+      <mat-icon>event_busy</mat-icon>
+      <h3>No live showtimes yet</h3>
+      <p>Check back soon or explore other movies currently screening.</p>
+    </div>
+
+    <div class="show-grid" *ngIf="!showLoading && shows.length">
+      <article class="show-card" *ngFor="let show of shows">
+        <div>
+          <h3>{{ formatShowTime(show.startsAtUtc) }}</h3>
+          <p>{{ show.theater }} • {{ show.screen }}</p>
+        </div>
+        <div class="price">
+          <span>&#8377;{{ show.price | number: '1.0-0' }}</span>
+          <small>per seat</small>
+        </div>
+        <button mat-stroked-button color="primary" (click)="goToBooking(show)">
+          Book seats
+          <mat-icon>event_seat</mat-icon>
+        </button>
+      </article>
+    </div>
+  </section>
+</section>

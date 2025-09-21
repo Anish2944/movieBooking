@@ -1,0 +1,61 @@
+<mat-toolbar color="primary" class="main-toolbar">
+  <button mat-button class="brand" routerLink="/">
+    <mat-icon>movie</mat-icon>
+    <span class="brand-text">MovieSphere</span>
+  </button>
+  <span class="spacer"></span>
+  <nav class="nav-links">
+    <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+      Now Showing
+    </a>
+    <a
+      mat-button
+      routerLink="/bookings"
+      routerLinkActive="active-link"
+      *ngIf="isAuthenticated$ | async"
+    >
+      My Bookings
+    </a>
+  </nav>
+  <ng-container *ngIf="(isAuthenticated$ | async); else guestLinks">
+    <button mat-button [matMenuTriggerFor]="accountMenu" class="account-button">
+      <mat-icon>person</mat-icon>
+      <span class="account-name">{{ (user$ | async)?.name || 'Account' }}</span>
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </ng-container>
+  <ng-template #guestLinks>
+    <a mat-stroked-button color="accent" routerLink="/auth/login">Sign In</a>
+    <a mat-raised-button color="accent" routerLink="/auth/register">Get Started</a>
+  </ng-template>
+</mat-toolbar>
+
+<mat-menu #accountMenu="matMenu">
+  <button mat-menu-item routerLink="/bookings">
+    <mat-icon>confirmation_number</mat-icon>
+    <span>My Bookings</span>
+  </button>
+  <button mat-menu-item routerLink="/admin" *ngIf="(user$ | async)?.role === 'Admin'">
+    <mat-icon>dashboard</mat-icon>
+    <span>Admin Console</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Sign out</span>
+  </button>
+</mat-menu>
+
+<div class="layout-content">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>&copy; {{ currentYear }} MovieSphere. All rights reserved.</span>
+    <div class="footer-links">
+      <a routerLink="/terms">Terms</a>
+      <a routerLink="/privacy">Privacy</a>
+      <a routerLink="/support">Support</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,88 @@
+<section class="hero">
+  <div class="hero-content">
+    <span class="badge">
+      <mat-icon>local_activity</mat-icon>
+      Premium screenings daily
+    </span>
+    <h1>Book the perfect show tonight.</h1>
+    <p>
+      Browse curated movies across theatres, lock your favourite seats instantly, and enjoy
+      a seamless movie night experience.
+    </p>
+
+    <mat-form-field appearance="fill" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-label>Search movies, genres or languages</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Try 'Interstellar' or 'Hindi'" />
+    </mat-form-field>
+
+    <div class="hero-stats">
+      <div>
+        <strong>{{ movies.length }}</strong>
+        <span>Movies live</span>
+      </div>
+      <div>
+        <strong>60+</strong>
+        <span>Screens across cities</span>
+      </div>
+      <div>
+        <strong>5k+</strong>
+        <span>Seats booked this week</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-art">
+    <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=900&q=80" alt="Cinema Experience" />
+  </div>
+</section>
+
+<section class="movies-section">
+  <header class="section-header">
+    <div>
+      <h2>Now Showing</h2>
+      <p>Discover what's trending and book your seats in seconds.</p>
+    </div>
+    <span class="count-pill">{{ filteredMovies.length }} titles</span>
+  </header>
+
+  <div class="loading-state" *ngIf="loading">
+    <mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
+    <span>Fetching the latest blockbusters…</span>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && filteredMovies.length === 0">
+    <mat-icon>movie_filter</mat-icon>
+    <h3>No matches found</h3>
+    <p>Try adjusting your search or explore upcoming releases.</p>
+  </div>
+
+  <div class="movies-grid" *ngIf="!loading && filteredMovies.length">
+    <article class="movie-card" *ngFor="let movie of filteredMovies; trackBy: trackByMovieId">
+      <div class="poster">
+        <img [src]="resolvePoster(movie)" [alt]="movie.title" />
+        <span class="duration">
+          <mat-icon>schedule</mat-icon>
+          {{ movie.durationMinutes }} mins
+        </span>
+      </div>
+      <div class="details">
+        <h3>{{ movie.title }}</h3>
+        <p>{{ movie.description || 'Experience a gripping story on the big screen.' }}</p>
+        <div class="meta">
+          <span *ngIf="movie.genre">
+            <mat-icon>category</mat-icon>
+            {{ movie.genre }}
+          </span>
+          <span *ngIf="movie.language">
+            <mat-icon>language</mat-icon>
+            {{ movie.language }}
+          </span>
+        </div>
+        <button mat-stroked-button color="primary" (click)="viewDetails(movie)">
+          View details
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </article>
+  </div>
+</section>

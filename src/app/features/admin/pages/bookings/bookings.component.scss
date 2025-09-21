@@ -1,0 +1,104 @@
+.bookings-admin {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2rem;
+}
+
+.lookup-card,
+.result-card,
+.placeholder {
+  background: #fff;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+}
+
+.lookup-card header,
+.result-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  h2,
+  h3 {
+    margin: 0;
+    color: #0f172a;
+  }
+}
+
+.lookup-card form {
+  display: grid;
+  gap: 1rem;
+
+  button[type='submit'] {
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+}
+
+.result-card {
+  display: grid;
+  gap: 1.25rem;
+
+  .status {
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.12);
+    color: #1d4ed8;
+    font-weight: 600;
+
+    &.confirmed {
+      background: rgba(34, 197, 94, 0.18);
+      color: #047857;
+    }
+  }
+
+  .detail {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(15, 23, 42, 0.7);
+
+    mat-icon {
+      color: #1d4ed8;
+    }
+
+    strong {
+      display: block;
+      color: #0f172a;
+    }
+  }
+
+  .total {
+    justify-content: space-between;
+    strong {
+      font-size: 1.6rem;
+      color: #1d4ed8;
+    }
+  }
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .bookings-admin {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lookup-card,
+  .result-card,
+  .placeholder {
+    padding: 1.5rem;
+  }
+}
